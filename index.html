@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEN Finder | Student Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>">
+    <style>
+        :root {
+            --primary: #007AFF;
+            --primary-dark: #0056CC;
+            --secondary: #5856D6;
+            --text-primary: #1D1D1F;
+            --text-secondary: #86868B;
+            --bg-primary: #F5F5F7;
+            --bg-secondary: #FFFFFF;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.12);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            --border-radius: 20px;
+            --border-radius-small: 14px;
+            --nav-height: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-bottom: calc(var(--nav-height) + 20px);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            text-align: center;
+            padding: 30px 20px 20px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .logo-icon {
+            font-size: 32px;
+            margin-right: 12px;
+            color: var(--primary);
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Search Tab */
+        .search-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-title i {
+            margin-right: 12px;
+            color: var(--primary);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 16px 20px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: var(--border-radius-small);
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.6);
+            transition: var(--transition);
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .select-field {
+            width: 100%;
+            padding: 16px 20px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: var(--border-radius-small);
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.6);
+            transition: var(--transition);
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%22%20viewBox%3D%220%200%20256%20448%22%20enable-background%3D%22new%200%200%20256%20448%22%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E.arrow%7Bfill%3A%23565656%3B%7D%3C%2Fstyle%3E%3Cpath%20class%3D%22arrow%22%20d%3D%22M225.9%20368.2L127.8%20270.1%2029.7%20368.2%202.8%20341.3%20127.8%20216.3%20252.8%20341.3z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            background-size: 12px;
+        }
+
+        .select-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .search-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-small);
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .search-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 122, 255, 0.25);
+        }
+
+        .search-button i {
+            margin-right: 10px;
+        }
+
+        /* Results Card */
+        .results-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-top: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+            display: none;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .results-card.active {
+            display: block;
+        }
+
+        .result-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .pen-number {
+            font-size: 42px;
+            font-weight: 700;
+            text-align: center;
+            margin: 20px 0;
+            color: var(--primary);
+            text-shadow: 0 2px 10px rgba(0, 122, 255, 0.15);
+            animation: pulse 2s infinite;
+        }
+
+        .student-info {
+            background: rgba(0, 122, 255, 0.05);
+            border-radius: var(--border-radius-small);
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .info-label {
+            font-weight: 500;
+            width: 120px;
+            color: var(--text-secondary);
+        }
+
+        .info-value {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 30px;
+            color: #FF3B30;
+        }
+
+        .error-message i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* Request Tab */
+        .profile-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            animation: slideUp 0.6s ease-out 0.1s both;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border: 3px solid white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .profile-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .request-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #34C759, #30D158);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-small);
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .request-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(52, 199, 89, 0.25);
+        }
+
+        .request-button i {
+            margin-right: 10px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 400px;
+            background: var(--card-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 25px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: var(--shadow-heavy);
+            border: 1px solid var(--glass-border);
+            z-index: 1000;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 20px;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .nav-item.active {
+            background: rgba(0, 122, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 5px;
+            transition: var(--transition);
+        }
+
+        .nav-text {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* Modal Popup */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border-radius: var(--border-radius);
+            width: calc(100% - 40px);
+            max-width: 500px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 30px;
+            box-shadow: var(--shadow-heavy);
+            border: 1px solid var(--glass-border);
+            animation: modalSlideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .close-button {
+            background: rgba(0, 0, 0, 0.05);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .close-button:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-form .input-group {
+            margin-bottom: 20px;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-small);
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 122, 255, 0.25);
+        }
+
+        .submit-button i {
+            margin-right: 10px;
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(0, 122, 255, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes modalSlideUp {
+            from { opacity: 0; transform: translateY(60px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-card, .profile-card, .results-card {
+                padding: 20px;
+            }
+            
+            .pen-number {
+                font-size: 36px;
+            }
+            
+            .bottom-nav {
+                width: calc(100% - 30px);
+                padding: 12px;
+            }
+            
+            .nav-item {
+                padding: 10px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 24px;
+            }
+            
+            .card-title {
+                font-size: 20px;
+            }
+            
+            .profile-name {
+                font-size: 20px;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .nav-text {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">📝</div>
+                <div class="logo-text">PEN Finder</div>
+            </div>
+            <p class="tagline">Find your PEN number quickly and easily</p>
+        </header>
+
+        <!-- Search Tab Content -->
+        <div id="search-tab" class="tab-content active">
+            <div class="search-card">
+                <h2 class="card-title"><i class="fas fa-search"></i> Find Your PEN Number</h2>
+                
+                <div class="input-group">
+                    <label class="input-label" for="class-input">Class</label>
+                    <select id="class-input" class="select-field">
+                        <option value="">Select Class</option>
+                        <option value="XI">XI</option>
+                        <option value="XII">XII</option>
+                    </select>
+                    <p style="font-size: 12px; color: var(--text-secondary); margin-top: 5px;">
+                        You can enter XI, xii, 11, 12, or select from dropdown
+                    </p>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label" for="student-name-input">Student Name</label>
+                    <input type="text" id="student-name-input" class="input-field" placeholder="Enter student full name">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label" for="father-name-input">Father's Name</label>
+                    <input type="text" id="father-name-input" class="input-field" placeholder="Enter father's full name">
+                </div>
+                
+                <button id="search-button" class="search-button">
+                    <i class="fas fa-search"></i> Search PEN Number
+                </button>
+            </div>
+            
+            <!-- Loading Spinner -->
+            <div id="loading-spinner" class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Searching database...</p>
+            </div>
+            
+            <!-- Results Card -->
+            <div id="results-card" class="results-card">
+                <!-- Results will be displayed here -->
+            </div>
+        </div>
+
+        <!-- Request Tab Content -->
+        <div id="request-tab" class="tab-content">
+            <div class="profile-card">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Profile" class="profile-image" id="profile-image">
+                <h2 class="profile-name">Anshu Raj Hans</h2>
+                <p class="profile-description">School administrator dedicated to helping students with their PEN number requests and academic documentation needs.</p>
+                <button id="request-pen-button" class="request-button">
+                    <i class="fas fa-pen-fancy"></i> Request for PEN
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Popup for Request Form -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Request PEN Number</h2>
+                <button id="close-modal" class="close-button">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="request-form" class="modal-form">
+                <div class="input-group">
+                    <label class="input-label" for="modal-student-name">Student Name</label>
+                    <input type="text" id="modal-student-name" class="input-field" placeholder="Enter student's full name" required>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label" for="modal-father-name">Father's Name</label>
+                    <input type="text" id="modal-father-name" class="input-field" placeholder="Enter father's full name" required>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label" for="modal-class">Class</label>
+                    <select id="modal-class" class="select-field" required>
+                        <option value="" disabled selected>Select your class</option>
+                        <option value="XI">XI</option>
+                        <option value="XII">XII</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label" for="modal-roll">Roll No</label>
+                    <input type="text" id="modal-roll" class="input-field" placeholder="Enter roll number" required>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label" for="modal-stream">Stream</label>
+                    <select id="modal-stream" class="select-field" required>
+                        <option value="" disabled selected>Select your stream</option>
+                        <option value="IA">IA</option>
+                        <option value="ISC">ISC</option>
+                        <option value="ICOM">ICOM</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="submit-button">
+                    <i class="fab fa-instagram"></i> Send via Instagram DM
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active" data-tab="search-tab">
+            <div class="nav-icon">🔍</div>
+            <div class="nav-text">Search</div>
+        </a>
+        <a href="#" class="nav-item" data-tab="request-tab">
+            <div class="nav-icon">📝</div>
+            <div class="nav-text">Request</div>
+        </a>
+    </nav>
+
+    <script>
+        // Tab Switching Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab Navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Get the target tab ID
+                    const targetTab = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all nav items and tabs
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    tabContents.forEach(tab => tab.classList.remove('active'));
+                    
+                    // Add active class to clicked nav item
+                    this.classList.add('active');
+                    
+                    // Show the target tab
+                    document.getElementById(targetTab).classList.add('active');
+                });
+            });
+            
+            // Modal Functionality
+            const requestButton = document.getElementById('request-pen-button');
+            const modalOverlay = document.getElementById('modal-overlay');
+            const closeModal = document.getElementById('close-modal');
+            const requestForm = document.getElementById('request-form');
+            
+            // Open modal
+            requestButton.addEventListener('click', function() {
+                modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            
+            // Close modal
+            closeModal.addEventListener('click', function() {
+                modalOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Close modal when clicking outside
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    modalOverlay.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Form Submission - Redirect to Instagram with data
+            requestForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const studentName = document.getElementById('modal-student-name').value;
+                const fatherName = document.getElementById('modal-father-name').value;
+                const studentClass = document.getElementById('modal-class').value;
+                const rollNo = document.getElementById('modal-roll').value;
+                const stream = document.getElementById('modal-stream').value;
+                
+                // Create message for Instagram
+                const message = `PEN Request:%0A%0AStudent Name: ${studentName}%0AFather's Name: ${fatherName}%0AClass: ${studentClass}%0ARoll No: ${rollNo}%0AStream: ${stream}`;
+                
+                // Redirect to Instagram with pre-filled message
+                window.open(`https://instagram.com/anshurajhans?text=${message}`, '_blank');
+                
+                // Reset form and close modal
+                requestForm.reset();
+                modalOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                
+                // Show confirmation (optional)
+                alert('You are being redirected to Instagram to send your PEN request. Please send the pre-filled message.');
+            });
+            
+            // Search Functionality
+            const searchButton = document.getElementById('search-button');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const resultsCard = document.getElementById('results-card');
+            const classInput = document.getElementById('class-input');
+            
+            // Also allow text input for class (for backward compatibility)
+            const classTextInput = document.createElement('input');
+            classTextInput.type = 'text';
+            classTextInput.id = 'class-text-input';
+            classTextInput.className = 'input-field';
+            classTextInput.style.marginTop = '10px';
+            classTextInput.placeholder = 'Or type class (XI, xii, 11, 12)';
+            classInput.parentNode.insertBefore(classTextInput, classInput.nextSibling);
+            
+            // CSV Data Storage
+            let csvData = [];
+            
+            // Your Google Sheets CSV URL
+            const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsBLC2zCga5oQ706Eb9tt77wXzK0mbFFGPyGGH19ob6AMSAGBfVU8dzx3KxRHzJbj-26dgv05-wFpr/pub?output=csv';
+            
+            // Normalize class input - handles XI, xii, 11, 12
+            function normalizeClass(classInput) {
+                if (!classInput) return '';
+                
+                const input = classInput.toString().trim().toUpperCase();
+                
+                // Map various inputs to standard XI/XII
+                if (input === '11' || input === 'XI') return 'XI';
+                if (input === '12' || input === 'XII') return 'XII';
+                
+                // Return as is if already in correct format
+                return input;
+            }
+            
+            // Load CSV data from Google Sheets
+            async function loadCSVData() {
+                try {
+                    console.log('Loading CSV data from:', CSV_URL);
+                    
+                    const response = await fetch(CSV_URL);
+                    const csvText = await response.text();
+                    
+                    // Parse CSV data
+                    csvData = parseCSV(csvText);
+                    console.log('CSV data loaded successfully:', csvData.length, 'records');
+                    
+                    // Log first record to see structure
+                    if (csvData.length > 0) {
+                        console.log('First record sample:', csvData[0]);
+                        console.log('Column headers:', Object.keys(csvData[0]));
+                    }
+                    
+                    return true;
+                } catch (error) {
+                    console.error('Error loading CSV data:', error);
+                    return false;
+                }
+            }
+            
+            // Parse CSV text into array of objects
+            function parseCSV(csvText) {
+                const lines = csvText.split('\n');
+                const result = [];
+                
+                if (lines.length === 0) return result;
+                
+                // Extract headers (first line)
+                const headers = lines[0].split(',').map(header => header.trim());
+                console.log('CSV Headers:', headers);
+                
+                // Process each data line
+                for (let i = 1; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (!line) continue;
+                    
+                    const obj = {};
+                    let currentIndex = 0;
+                    let insideQuotes = false;
+                    let currentField = '';
+                    const fields = [];
+                    
+                    // Parse CSV line considering quotes
+                    for (let j = 0; j < line.length; j++) {
+                        const char = line[j];
+                        
+                        if (char === '"' && (j === 0 || line[j-1] !== '\\')) {
+                            insideQuotes = !insideQuotes;
+                        } else if (char === ',' && !insideQuotes) {
+                            fields.push(currentField.trim());
+                            currentField = '';
+                        } else {
+                            currentField += char;
+                        }
+                    }
+                    
+                    // Add the last field
+                    fields.push(currentField.trim());
+                    
+                    // Map fields to headers
+                    for (let j = 0; j < headers.length && j < fields.length; j++) {
+                        obj[headers[j]] = fields[j];
+                    }
+                    
+                    result.push(obj);
+                }
+                
+                return result;
+            }
+            
+            // Search for student in CSV data
+            function searchStudent(className, studentName, fatherName) {
+                if (csvData.length === 0) {
+                    console.log('No CSV data available for search');
+                    return null;
+                }
+                
+                // Normalize class input
+                const normalizedClass = normalizeClass(className);
+                console.log('Normalized class:', normalizedClass);
+                
+                // Convert search terms to lowercase for case-insensitive search
+                const searchStudentName = studentName.toLowerCase().trim();
+                const searchFatherName = fatherName.toLowerCase().trim();
+                
+                console.log('Searching for:', { 
+                    class: normalizedClass, 
+                    student: searchStudentName, 
+                    father: searchFatherName 
+                });
+                
+                // Find matching student - using exact column names from CSV
+                const matchedStudent = csvData.find(student => {
+                    // Get values with exact column names
+                    const studentClass = (student.CLASS || '').toString().trim().toUpperCase();
+                    const studentNameValue = (student['STUDENT NAME'] || '').toString().toLowerCase().trim();
+                    const studentFather = (student['FATHER NAME'] || '').toString().toLowerCase().trim();
+                    
+                    // Debug logging for first few records
+                    if (csvData.indexOf(student) < 3) {
+                        console.log(`Record ${csvData.indexOf(student)}:`, {
+                            studentClass,
+                            studentNameValue, 
+                            studentFather
+                        });
+                    }
+                    
+                    // Check for match
+                    const classMatch = studentClass === normalizedClass;
+                    const nameMatch = studentNameValue.includes(searchStudentName) || 
+                                      searchStudentName.includes(studentNameValue);
+                    const fatherMatch = studentFather.includes(searchFatherName) || 
+                                        searchFatherName.includes(studentFather);
+                    
+                    return classMatch && nameMatch && fatherMatch;
+                });
+                
+                if (matchedStudent) {
+                    console.log('Found matching student:', matchedStudent);
+                } else {
+                    console.log('No matching student found');
+                }
+                
+                return matchedStudent;
+            }
+            
+            // Display search results
+            function displayResults(student) {
+                resultsCard.innerHTML = '';
+                
+                if (student) {
+                    // Get PEN number and other details
+                    const penNumber = student.PEN_NO || 'Not Available';
+                    const displayStudentName = student['STUDENT NAME'] || 'N/A';
+                    const displayFatherName = student['FATHER NAME'] || 'N/A';
+                    const displayClass = student.CLASS || 'N/A';
+                    const displaySection = student.SECTION || 'N/A';
+                    const displayGender = student.GENDER || 'N/A';
+                    const displayMotherName = student['MOTHER NAME'] || 'N/A';
+                    
+                    // Create result HTML
+                    const resultHTML = `
+                        <h3 class="result-title"><i class="fas fa-check-circle"></i> PEN Number Found</h3>
+                        <div class="pen-number">${penNumber}</div>
+                        <div class="student-info">
+                            <div class="info-row">
+                                <div class="info-label">Student Name:</div>
+                                <div class="info-value">${displayStudentName}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Father's Name:</div>
+                                <div class="info-value">${displayFatherName}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Mother's Name:</div>
+                                <div class="info-value">${displayMotherName}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Class:</div>
+                                <div class="info-value">${displayClass}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Section:</div>
+                                <div class="info-value">${displaySection}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Gender:</div>
+                                <div class="info-value">${displayGender}</div>
+                            </div>
+                        </div>
+                        <p style="margin-top: 20px; text-align: center; color: var(--text-secondary); font-size: 14px;">
+                            <i class="fas fa-info-circle"></i> Save this PEN number for future reference.
+                        </p>
+                    `;
+                    
+                    resultsCard.innerHTML = resultHTML;
+                } else {
+                    // No match found
+                    const errorHTML = `
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <h3>No Match Found</h3>
+                            <p>We couldn't find a PEN number matching your details. Please check:</p>
+                            <ul style="text-align: left; margin: 15px 0; padding-left: 20px;">
+                                <li>Class should be XI or XII (can also use 11 or 12)</li>
+                                <li>Check spelling of Student Name</li>
+                                <li>Check spelling of Father's Name</li>
+                            </ul>
+                            <p>Or request a new PEN number.</p>
+                            <button id="go-to-request" class="search-button" style="margin-top: 20px; padding: 12px;">
+                                <i class="fas fa-pen-fancy"></i> Request New PEN
+                            </button>
+                        </div>
+                    `;
+                    
+                    resultsCard.innerHTML = errorHTML;
+                    
+                    // Add event listener to the request button
+                    setTimeout(() => {
+                        const goToRequestBtn = document.getElementById('go-to-request');
+                        if (goToRequestBtn) {
+                            goToRequestBtn.addEventListener('click', function() {
+                                // Switch to request tab
+                                document.querySelector('[data-tab="request-tab"]').click();
+                                // Open modal
+                                requestButton.click();
+                            });
+                        }
+                    }, 100);
+                }
+                
+                // Show results card with animation
+                resultsCard.classList.add('active');
+                
+                // Scroll to results
+                resultsCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+            
+            // Handle search button click
+            searchButton.addEventListener('click', async function() {
+                // Get input values
+                let className = classInput.value;
+                const classNameText = document.getElementById('class-text-input').value;
+                
+                // Use text input if dropdown is empty
+                if (!className && classNameText) {
+                    className = classNameText;
+                }
+                
+                const studentName = document.getElementById('student-name-input').value;
+                const fatherName = document.getElementById('father-name-input').value;
+                
+                // Validate inputs
+                if (!className || !studentName || !fatherName) {
+                    alert('Please fill in all fields before searching.');
+                    return;
+                }
+                
+                // Validate class format
+                const normalizedClass = normalizeClass(className);
+                if (normalizedClass !== 'XI' && normalizedClass !== 'XII') {
+                    alert('Please enter valid class: XI, xii, 11, or 12');
+                    return;
+                }
+                
+                // Show loading spinner
+                loadingSpinner.style.display = 'block';
+                resultsCard.classList.remove('active');
+                
+                try {
+                    // Load CSV data if not already loaded
+                    if (csvData.length === 0) {
+                        const loaded = await loadCSVData();
+                        if (!loaded) {
+                            throw new Error('Failed to load student database. Please check your connection and try again.');
+                        }
+                    }
+                    
+                    // Simulate network delay for better UX
+                    await new Promise(resolve => setTimeout(resolve, 800));
+                    
+                    // Search for student
+                    const student = searchStudent(className, studentName, fatherName);
+                    
+                    // Display results
+                    displayResults(student);
+                } catch (error) {
+                    console.error('Search error:', error);
+                    
+                    // Show error message
+                    resultsCard.innerHTML = `
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3>Database Connection Error</h3>
+                            <p>${error.message || 'Unable to connect to the database.'}</p>
+                            <p style="margin-top: 15px; font-size: 14px;">
+                                Please check your internet connection and try again.
+                            </p>
+                            <button id="retry-search" class="search-button" style="margin-top: 20px; padding: 12px;">
+                                <i class="fas fa-redo"></i> Retry Search
+                            </button>
+                        </div>
+                    `;
+                    
+                    resultsCard.classList.add('active');
+                    
+                    // Add retry functionality
+                    setTimeout(() => {
+                        const retryBtn = document.getElementById('retry-search');
+                        if (retryBtn) {
+                            retryBtn.addEventListener('click', function() {
+                                searchButton.click();
+                            });
+                        }
+                    }, 100);
+                } finally {
+                    // Hide loading spinner
+                    loadingSpinner.style.display = 'none';
+                }
+            });
+            
+            // Allow search with Enter key
+            document.getElementById('student-name-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchButton.click();
+                }
+            });
+            
+            document.getElementById('father-name-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchButton.click();
+                }
+            });
+            
+            // Auto-update dropdown when typing in text field
+            document.getElementById('class-text-input').addEventListener('input', function(e) {
+                const value = normalizeClass(e.target.value);
+                if (value === 'XI' || value === 'XII') {
+                    classInput.value = value;
+                }
+            });
+            
+            // Auto-update text field when selecting from dropdown
+            classInput.addEventListener('change', function() {
+                document.getElementById('class-text-input').value = this.value;
+            });
+            
+            // Preload CSV data on page load for faster search
+            loadCSVData().then(success => {
+                if (success) {
+                    console.log('CSV data preloaded successfully');
+                    // Show a small notification that data is loaded
+                    const tagline = document.querySelector('.tagline');
+                    if (tagline) {
+                        const originalText = tagline.textContent;
+                        tagline.innerHTML = originalText + ' <span style="color: var(--primary);">✓ Database Loaded</span>';
+                        setTimeout(() => {
+                            tagline.innerHTML = originalText;
+                        }, 3000);
+                    }
+                } else {
+                    console.log('CSV data will be loaded on first search');
+                }
+            });
+            
+            // Add touch feedback to buttons
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.98)';
+                });
+                
+                button.addEventListener('touchend', function() {
+                    this.style.transform = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
